@@ -6,10 +6,15 @@ from janome.tokenizer import Tokenizer
 app = Flask(__name__)
 t = Tokenizer()
 
-@app.route('/')
+@app.route('/',  methods=["GET", "POST"])
 def janome2(name=None):
-    text = request.args.get("msg", "Not defined")
-    sep = request.args.get("sep", " ")
+    #text = request.args.get("msg", "Not defined")
+    #sep = request.args.get("sep", " ")
+    """
+    <form action="/" method="POST">
+    <input name="text"></input>
+    </form>
+    """
     tokens = t.tokenize(text, wakati=True)
     res = ""
     for token in tokens:
@@ -17,6 +22,7 @@ def janome2(name=None):
         res += sep
     return res
 
+'''
 @app.route('/test', methods=["GET", "POST"])
 def odd_even():
     if request.method == "GET":
@@ -38,7 +44,7 @@ def odd_even():
                 <form action="/test" method="POST">
                 <input name="num"></input>
                 </form>"""
-
+'''
 
 if __name__ == '__main__':
     app.run()
