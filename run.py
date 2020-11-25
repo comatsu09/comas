@@ -6,45 +6,36 @@ from janome.tokenizer import Tokenizer
 app = Flask(__name__)
 t = Tokenizer()
 
-@app.route('/',  methods=["GET", "POST"])
-def janome2(name=None):
+@app.route('/',  methods=["GET"])
+def get():
+    return render_template('index.html', \
+#    title = 'Form Sample(get)', \
+    title = 'Janome(get)', \
+#    message = '名前を入力して下さい。')
+    message = '文章を入力して下さい。')
+
+@app.route('/',  methods=["POST"])
+#def janome(name=None):
+def janome():
     #text = request.args.get("msg", "Not defined")
     #sep = request.args.get("sep", " ")
-    """
-    <form action="/" method="POST">
-    <input name="text"></input>
-    </form>
-    """
+    text = request.form['name']
     tokens = t.tokenize(text, wakati=True)
     res = ""
     for token in tokens:
         res += token
-        res += sep
-    return res
+#        res += sep
+        res += "*"
+    #return res
 
-'''
-@app.route('/test', methods=["GET", "POST"])
-def odd_even():
-    if request.method == "GET":
-        return """
-        下に整数を入力してください。奇数か偶数か判定します。
-        <form action="/test" method="POST">
-        <input name="num"></input>
-        </from>"""
-    else:
-        try:
-            return """
-            {}は{}です！
-            <form action="/test" method="POST">
-            <input name="num"></input>
-            </form>""".format(str(request.form["num"]), ["偶数", "奇数"][int(request.form["num"]) % 2])
-        except:
-            return """
-                有効な数字ではありません！入力しなおしてください。
-                <form action="/test" method="POST">
-                <input name="num"></input>
-                </form>"""
-'''
+#@app.route('/',  methods=["POST"])
+#def post():
+#    name = request.form['name']
+    return render_template('index.html', \
+#    title = 'Form Sample(post)', \
+    title = 'Janome(post)', \
+#    message = 'こんにちは、{}さん'.format(name))
+    message = 'test:{}'.format(res))
 
 if __name__ == '__main__':
     app.run()
