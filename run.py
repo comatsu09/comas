@@ -9,33 +9,21 @@ t = Tokenizer()
 @app.route('/',  methods=["GET"])
 def get():
     return render_template('index.html', \
-#    title = 'Form Sample(get)', \
-    title = 'Janome(get)', \
-#    message = '名前を入力して下さい。')
+    title = '文節分けをします(get)', \
     message = '文章を入力して下さい。')
 
 @app.route('/',  methods=["POST"])
-#def janome(name=None):
 def janome():
-    #text = request.args.get("msg", "Not defined")
-    #sep = request.args.get("sep", " ")
-    text = request.form['name']
+    text = request.form['text']
     tokens = t.tokenize(text, wakati=True)
     res = ""
     for token in tokens:
         res += token
-#        res += sep
-        res += "*"
-    #return res
+        res += '*'
 
-#@app.route('/',  methods=["POST"])
-#def post():
-#    name = request.form['name']
     return render_template('index.html', \
-#    title = 'Form Sample(post)', \
-    title = 'Janome(post)', \
-#    message = 'こんにちは、{}さん'.format(name))
-    message = 'test:{}'.format(res))
+    title = '文節分けをします(post)', \
+    message = '結果： {}'.format(res))
 
 if __name__ == '__main__':
     app.run()
