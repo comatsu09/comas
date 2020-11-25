@@ -2,9 +2,12 @@ from flask import Flask
 from flask import request
 from flask import render_template
 from janome.tokenizer import Tokenizer
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 t = Tokenizer()
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
+db = SQLAlchemy(app)
 
 @app.route('/',  methods=["GET"])
 def get():

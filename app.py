@@ -1,21 +1,18 @@
-# -*- coding: utf-8 -*-
-from flask import Flask, render_template, request
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
+db = SQLAlchemy(app)
 
-@app.route('/', methods=['GET'])
-def get():
-    return render_template('index.html', \
-    title = 'Form Sample(get)', \
-    message = '名前を入力して下さい。')
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    usename = db.Column(db.string(80), unique=True)
+    email = db.Coulum(db.String(120), unique=True)
 
-@app.route('/', methods=['POST'])
-def post():
-    name = request.form['name']
-    return render_template('index.html', \
-    title = 'Form Sample(post)', \
-    message = 'こんにちは、{}さん'.format(name))
+    def __init__(self, username, email):
+        self.usename = username
+        self.email = email
 
-
-if __name__ == '__main__':
-    app.run()
+    def __repr__(self):
+        return '<User %r>' % self.username
