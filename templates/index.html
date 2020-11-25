@@ -6,11 +6,16 @@
     <title>Hello Jinja2</title>
   </head>
   <body>
-    <h1>Hello Jinja2</h1>
-    <p>Jinja2でHTMLファイルを読み込むことに成功しました。</p>
-    <form class="" action="/" method="post" enctype="multipart/form-data">
-      <input type="text" name="name">
+    <h1>{{ title }}</h1>
+    <p>{{ message }}</p>
+    <form action="/" method="POST" enctype="multipart/form-data">
+      <div>
+          <label for="name">名前：</label>
+          <input type="text" id="name" name="name" placeholder="名前">
+      </div>
+      <div>
       <input type="submit" value="送信">
+      </div>
     </form>
 
 
