@@ -32,11 +32,13 @@ def janome():
     text = request.form['text']
     tokens = t.tokenize(text, wakati=True)
     res = ""
+    num = 1
     for token in tokens:
         res += token
         res += '*'
+        num += 1
 
-    text_res = Text(text = res)
+    text_res = Text(id = num,text = res)
     db.session.add(text_res)
     db.session.commit()
 
