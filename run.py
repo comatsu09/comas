@@ -36,7 +36,8 @@ def janome():
     for token in tokens:
         res += token
         res += '*'
-        num += 1
+
+    num += 1
 
     text_res = Text(id = num,text = res)
     db.session.add(text_res)
