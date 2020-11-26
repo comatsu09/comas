@@ -10,15 +10,15 @@ from sqlalchemy.orm import sessionmaker
 
 app = Flask(__name__)
 t = Tokenizer()
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.sqlite'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///base/test.sqlite'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
-engine = create_engine('sqlite:///test.sqlite')
-Base = declarative_base()
+#engine = create_engine('sqlite:///test.sqlite')
+#Base = declarative_base()
 
-class Text(Base):
+class Text(db.Model):
     __tablename__ = 'test'
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, unique=True)
     text = db.Column(db.String,nullable=False)
 
 @app.route('/',  methods=["GET"])
@@ -36,18 +36,20 @@ def janome():
         res += token
         res += '*'
 
+    text_res = Text(text = res)
+    db.session.add(text_res)
+    db.session.commit()
+
     return render_template('index.html', \
     title = '文節分けをします(post)', \
     message = '結果： {}'.format(res))
 
-    Base.metadate.create_all(engine)
-    SessionMaker = sessionmaker(bind=engine)
-    session = SessionMaker()
-    text_res = Text(text = res)
-#    db.session.add(text_res)
-#    db.session.commit()
-    session.add(text_res)
-    session.commit()
+#    Base.metadate.create_all(engine)
+#    SessionMaker = sessionmaker(bind=engine)
+#    session = SessionMaker()
+#    text_res = Text(text = res)
+#    session.add(text_res)
+#    session.commit()
 
 
 if __name__ == '__main__':
