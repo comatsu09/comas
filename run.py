@@ -13,8 +13,6 @@ t = Tokenizer()
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///base/test.sqlite'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
-#engine = create_engine('sqlite:///test.sqlite')
-#Base = declarative_base()
 
 class Text(db.Model):
     __tablename__ = 'test'
@@ -32,12 +30,11 @@ def janome():
     text = request.form['text']
     tokens = t.tokenize(text, wakati=True)
     res = ""
-    num = 1
     for token in tokens:
         res += token
         res += '*'
 
-    num += 1
+    num = number(res)
 
     text_res = Text(id = num,text = res)
     db.session.add(text_res)
@@ -47,13 +44,10 @@ def janome():
     title = '文節分けをします(post)', \
     message = '結果： {}'.format(res))
 
-#    Base.metadate.create_all(engine)
-#    SessionMaker = sessionmaker(bind=engine)
-#    session = SessionMaker()
-#    text_res = Text(text = res)
-#    session.add(text_res)
-#    session.commit()
-
+def number(bun):
+    if not bun =='':
+        cnt += 1
+        return cnt
 
 if __name__ == '__main__':
     app.run()
