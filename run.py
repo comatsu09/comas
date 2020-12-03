@@ -15,7 +15,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 class Text(db.Model):
-    __tablename__ = 'test'
+    __tablename__ = 'bun'
     id = db.Column(db.Integer, primary_key=True, unique=True)
     text = db.Column(db.String,nullable=False)
 
@@ -34,20 +34,15 @@ def janome():
         res += token
         res += '*'
 
-    num = number(res)
+        cnt = 1
 
-    text_res = Text(id = num,text = res)
+    text_res = Text(text = res)
     db.session.add(text_res)
     db.session.commit()
 
     return render_template('index.html', \
     title = '文節分けをします(post)', \
     message = '結果： {}'.format(res))
-
-def number(bun):
-    if not bun =='':
-        cnt += 1
-        return cnt
 
 if __name__ == '__main__':
     app.run()
